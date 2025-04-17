@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom"
 import axios from "axios";
 
+
+
 export default function SinglePost() {
     const [loading, setLoading] = useState(true)
     const [post, setPost] = useState(null)
 
     const [prevPost, setPrevPost] = useState(0)
     const [nextPost, setNextPost] = useState(0)
+
 
 
     const { id } = useParams();
@@ -18,14 +21,16 @@ export default function SinglePost() {
         setLoading(true);
         axios.get(singlePostEndpoint)
             .then(response => {
-                setNextPost((id) + 1)
+                setNextPost(parseInt(id) + 1)
+                setPrevPost(parseInt(id) - 1)
                 setLoading(false)
                 setPost(response.data)
 
             })
     }
 
-    useEffect(showSinglePost, [])
+    useEffect(showSinglePost, [id])
+
 
     if (loading) {
         return (
